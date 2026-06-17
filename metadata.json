@@ -1,0 +1,7 @@
+{
+  "name": "Advanced Network Client Map",
+  "description": "A comprehensive network mapping tool for managing ODPs, clients, and fiber paths with real-time health monitoring and recycle bin functionality.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

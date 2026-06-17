@@ -1,0 +1,333 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Map Styles */
+#map { height: 100vh; width: 100%; }
+.blinking-line { animation: blink 0.8s infinite; }
+@keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+.custom-odp-popup .leaflet-popup-content-wrapper { background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: background-color 0.3s, color 0.3s; }
+.custom-odp-popup .leaflet-popup-content { margin: 12px; font-size: 14px; color: #333; }
+.odp-popup-container { display: flex; flex-direction: column; gap: 8px; }
+.odp-header-line, .odp-client-item { display: flex; align-items: center; gap: 8px; }
+.status-dot { height: 9px; width: 9px; border-radius: 50%; flex-shrink: 0; }
+.status-odp { background-color: #e67e22; }
+.status-on { background-color: #00ff0c; }
+.status-off { background-color: #e74c3c; }
+.odp-id { color: #e67e22; font-weight: bold; }
+.client-count { color: #888; font-size: 13px; margin-left: 4px; }
+.client-port { color: #555; font-weight: 500; }
+.client-name { color: #333; }
+.client-status { margin-left: auto; font-weight: 500; }
+.status-on-text { color: #00c80b; }
+.status-off-text { color: #c0392b; }
+
+.custom-detailed-popup .leaflet-popup-content-wrapper { background: #ffffff; color: #333; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 0; overflow: hidden; transition: background-color 0.3s, color 0.3s; }
+.custom-detailed-popup .leaflet-popup-content { margin: 0; font-size: 14px; line-height: 1.6; }
+.custom-detailed-popup .leaflet-popup-tip { background: #ffffff; transition: background-color 0.3s; }
+.popup-container { padding: 16px; }
+.popup-header { font-weight: 600; font-size: 18px; color: #1a202c; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 12px; }
+.popup-info-grid { display: grid; grid-template-columns: 100px 1fr; gap: 8px 12px; font-size: 13px; }
+.popup-info-grid .label { color: #718096; font-weight: 600; }
+.popup-info-grid .value { color: #2d3748; }
+.popup-info-grid .value.status-online { color: #00c80b; font-weight: 700; }
+.popup-info-grid .value.status-offline { color: #c0392b; font-weight: 700; }
+.popup-footer { display: flex; justify-content: space-around; background-color: #f7fafc; padding: 12px 0; border-top: 1px solid #e2e8f0; margin-top: 16px; }
+.popup-footer img { width: 24px; height: 24px; }
+
+#search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; background: white; padding: 4px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 4px; transition: background-color 0.3s; }
+#searchInput { border: none; background: transparent; outline: none; padding: 5px 10px; font-size: 14px; width: 140px; transition: width 0.4s ease-in-out; }
+#searchInput:focus { width: 180px; }
+#searchButton { width: 28px; height: 28px; padding: 0; background-color: #007bff; color: white; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s; }
+#searchButton:hover { background-color: #0056b3; }
+#searchButton svg { stroke: white; }
+
+.client-label-tooltip { background-color: #ffc107; border: 1px solid #c79100; border-radius: 3px; padding: 1px 4px; box-shadow: none; color: #000; font-size: 10px; font-weight: bold; text-shadow: none; }
+@keyframes blink-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+.blinking-los { color: #c0392b; font-weight: 700; animation: blink-red 1s infinite; }
+.signal-good { color: #28a745; font-weight: 700; }
+.signal-warning { color: #ffc107; font-weight: 700; }
+.signal-bad { color: #dc3545; font-weight: 700; }
+.signal-icon { margin-left: 5px; }
+
+.leaflet-control-locate a { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-crosshair'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='22' y1='12' x2='18' y2='12'%3E%3C/line%3E%3Cline x1='6' y1='12' x2='2' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='6' x2='12' y2='2'%3E%3C/line%3E%3Cline x1='12' y1='22' x2='12' y2='18'%3E%3C/line%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; background-size: 20px 20px; }
+.leaflet-control-locate.active a { background-color: #2979FF; }
+
+@keyframes pulsate { 0% { transform: scale(0.1); opacity: 0.0; } 50% { opacity: 1; } 100% { transform: scale(1.2); opacity: 0; } }
+.leaflet-pulsing-icon { background-color: #007bff; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.5); }
+.leaflet-pulsing-icon::after { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: transparent; border-radius: 50%; border: 2px solid #007bff; animation: pulsate 1.5s ease-out infinite; }
+
+.custom-context-menu { position: absolute; background-color: #2c3e50; color: #ecf0f1; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 1001; display: none; width: 220px; padding: 5px 0; }
+.context-menu-item { padding: 10px 15px; cursor: pointer; display: flex; align-items: center; font-size: 14px; }
+.context-menu-item:hover { background-color: #34495e; }
+.context-menu-item img { width: 20px; height: 20px; margin-right: 12px; filter: invert(1); }
+.context-menu-separator { border-top: 1px solid #34495e; margin: 5px 0; }
+
+.add-client-btn { background-color: #007bff; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer; margin-top: 10px; font-weight: bold; display: block; text-align: center; }
+.add-client-btn:hover { background-color: #0056b3; }
+.client-actions { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.client-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+.client-action-btn * {
+  pointer-events: none !important;
+}
+.client-action-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+.edit-client-btn:hover {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #2563eb;
+}
+.hide-client-btn:hover {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #16a34a;
+}
+.delete-client-btn:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+.modal-content { background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 90%; max-width: 450px; position: relative; transition: background-color 0.3s, color 0.3s; }
+.modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
+.modal-close-btn:hover { color: #333; }
+.modal-content h3 { margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+#client-form label, .generic-form label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; font-size: 14px; }
+#client-form input, #client-form select, .generic-form input, .generic-form select, .generic-form textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+#client-form button, .generic-form button { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+#client-form button:hover, .generic-form button:hover { background-color: #218838; }
+.form-row { display: flex; gap: 15px; }
+.form-group { flex: 1; }
+.form-group label { margin-bottom: 5px; }
+#client-form .required { color: red; }
+
+#path-edit-panel { position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background-color: #2d3436; color: #dfe6e9; box-shadow: -2px 0 10px rgba(0,0,0,0.5); z-index: 1002; transition: right 0.3s ease-in-out; display: flex; flex-direction: column; }
+#path-edit-panel.show { right: 0; }
+.panel-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background-color: #636e72; }
+.panel-header h3 { margin: 0; font-size: 18px; }
+.panel-header .actions button { background: none; border: none; color: #dfe6e9; font-size: 24px; cursor: pointer; }
+#delete-path-btn:hover { color: #ff7675; }
+.panel-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
+.panel-body label { font-size: 12px; color: #b2bec3; display: block; margin-bottom: 5px; }
+.panel-body input, .panel-body textarea, .panel-body select { width: 100%; background-color: #636e72; color: #dfe6e9; border: 1px solid #b2bec3; border-radius: 4px; padding: 8px; box-sizing: border-box; margin-bottom: 15px; }
+.panel-body .input-group { display: flex; gap: 10px; }
+.panel-body .input-group div { flex: 1; }
+.panel-section-title { font-weight: bold; color: #b2bec3; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #636e72; padding-bottom: 5px; cursor: pointer; }
+.panel-section-title::after { content: ' ▼'; float: right; }
+.panel-section-title.collapsed::after { content: ' ▶'; }
+.panel-section { display: block; }
+.panel-section.collapsed { display: none; }
+.panel-button { background-color: #0984e3; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; text-align: center; margin-top: 10px; width: 100%;}
+.panel-button:hover { background-color: #74b9ff; }
+
+.leaflet-div-icon.leaflet-edit-marker-vertex, .leaflet-div-icon.leaflet-edit-marker-mid { background: #ffffff !important; border: 2px solid #ffc107 !important; border-radius: 50% !important; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); width: 12px !important; height: 12px !important; margin-left: -8px !important; margin-top: -8px !important; }
+.odp-client-item.hidden-client .client-name, .odp-client-item.hidden-client .client-port { text-decoration: line-through; color: #999; }
+
+#network-health-dashboard { position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: rgba(44, 62, 80, 0.85); color: #ecf0f1; padding: 12px 18px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.4); font-size: 14px; width: 220px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); transition: background-color 0.3s, color 0.3s; }
+.dashboard-title { font-weight: bold; text-align: center; margin-bottom: 12px; border-bottom: 1px solid #7f8c8d; padding-bottom: 8px; font-size: 16px; }
+.dashboard-stat { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.dashboard-stat-label { color: #bdc3c7; }
+.dashboard-stat-value { font-weight: bold; }
+#total-clients-value { color: #2ecc71; }
+
+.history-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.history-table th, .history-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+.history-table th { background-color: #f2f2f2; }
+.demo-notice { font-size: 12px; color: #e74c3c; text-align: center; margin-top: 15px; font-weight: bold;}
+
+/* Dark theme */
+.dark-theme {
+    --bg-primary: #2d3436;
+    --bg-secondary: #636e72;
+    --bg-tertiary: #3e4749;
+    --text-primary: #dfe6e9;
+    --text-secondary: #b2bec3;
+    --border-color: #7f8c8d;
+    --accent-color: #0984e3;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+.dark-theme body { background-color: var(--bg-primary); }
+.dark-theme #search-container { background: var(--bg-secondary); box-shadow: 0 2px 8px var(--shadow-color); }
+.dark-theme #searchInput { color: var(--text-primary); }
+.dark-theme #searchButton { background-color: var(--accent-color); }
+.dark-theme .custom-detailed-popup .leaflet-popup-content-wrapper,
+.dark-theme .custom-odp-popup .leaflet-popup-content-wrapper,
+.dark-theme .modal-content { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); }
+.dark-theme .leaflet-popup-tip { background: var(--bg-tertiary); }
+.dark-theme .popup-header { color: var(--text-primary); border-bottom-color: var(--border-color); }
+.dark-theme .popup-info-grid .label { color: var(--text-secondary); }
+.dark-theme .popup-info-grid .value { color: #ecf0f1; }
+.dark-theme .popup-footer { background-color: var(--bg-primary); border-top-color: var(--border-color); }
+.dark-theme .custom-odp-popup .odp-id { color: #fab1a0; }
+.dark-theme .custom-odp-popup .client-name,
+.dark-theme .custom-odp-popup .client-port { color: var(--text-primary); }
+.dark-theme .custom-odp-popup .odp-client-item:hover { background-color: #4a5457; }
+.dark-theme .add-client-btn { background-color: var(--accent-color); }
+.dark-theme .add-client-btn:hover { background-color: #74b9ff; }
+.dark-theme .generic-form h3, .dark-theme .generic-form label { color: var(--text-primary); border-bottom-color: var(--border-color); }
+.dark-theme .generic-form input, .dark-theme .generic-form select, .dark-theme .generic-form textarea { background-color: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); }
+.dark-theme .generic-form button { background-color: #27ae60; }
+.dark-theme #network-health-dashboard { background: rgba(45, 52, 54, 0.9); border-color: rgba(255, 255, 255, 0.25); }
+.dark-theme .dashboard-title { border-bottom-color: var(--border-color); }
+.dark-theme .dashboard-stat-label { color: var(--text-secondary); }
+.dark-theme .history-table th { background-color: var(--bg-secondary); }
+.dark-theme .history-table th, .dark-theme .history-table td { border-color: var(--border-color); }
+.dark-theme .custom-context-menu { background-color: var(--bg-primary); color: var(--text-primary); }
+.dark-theme .context-menu-item:hover { background-color: var(--bg-secondary); }
+.dark-theme .leaflet-control-locate a { background-color: var(--bg-secondary); }
+.dark-theme .leaflet-control-locate a:hover { background-color: var(--bg-primary); }
+
+/* Hamburger menu styles */
+.leaflet-control-panel { background-color: white; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.4); cursor: pointer; }
+.leaflet-control-panel a { display: block; text-align: center; text-decoration: none; background-color: #fff; color: #333; font-size: 18px; line-height: 30px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; }
+.leaflet-control-panel a:hover { background-color: #f4f4f4; }
+.leaflet-control-panel-panel { position: absolute; top: 35px; left: 0; background: white; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); width: 220px; padding: 8px 0; display: none; z-index: 1000; }
+.leaflet-control-panel-panel.show { display: block; }
+.leaflet-control-panel-panel button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 15px; border: none; background: none; text-align: left; cursor: pointer; font-size: 14px; color: #333; }
+.leaflet-control-panel-panel button:hover { background-color: #f0f0f0; }
+.leaflet-control-panel-panel button span { font-size: 16px; }
+.dark-theme .leaflet-control-panel a { background-color: var(--bg-secondary); color: var(--text-primary); }
+.dark-theme .leaflet-control-panel a:hover { background-color: var(--bg-primary); }
+.dark-theme .leaflet-control-panel-panel { background-color: var(--bg-tertiary); border: 1px solid var(--border-color); }
+.dark-theme .leaflet-control-panel-panel button { color: var(--text-primary); }
+.dark-theme .leaflet-control-panel-panel button:hover { background-color: var(--bg-secondary); }
+
+/* Trash modal */
+#trash-modal-overlay .modal-content { max-width: 600px; }
+.trash-item { display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee; }
+.trash-item:last-child { border-bottom: none; }
+.trash-item-info { display: flex; flex-direction: column; font-size: 13px; }
+.trash-item-actions button { margin-left: 8px; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
+.restore-btn { background-color: #28a745; color: white; }
+.delete-permanent-btn { background-color: #dc3545; color: white; }
+.dark-theme .trash-item { border-bottom-color: #444; }
+
+/* ODP popup buttons */
+.odp-header-line .toggle-lock-btn,
+.odp-header-line .edit-odp-btn,
+.odp-header-line .delete-odp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  margin-left: 4px;
+}
+.odp-header-line .toggle-lock-btn *,
+.odp-header-line .edit-odp-btn *,
+.odp-header-line .delete-odp-btn * {
+  pointer-events: none !important;
+}
+.odp-header-line .toggle-lock-btn:hover {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  color: #d97706;
+  transform: translateY(-1px);
+}
+.odp-header-line .edit-odp-btn:hover {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+.odp-header-line .delete-odp-btn:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Dark theme overrides for all action buttons */
+.dark-theme .client-action-btn,
+.dark-theme .odp-header-line .toggle-lock-btn,
+.dark-theme .odp-header-line .edit-odp-btn,
+.dark-theme .odp-header-line .delete-odp-btn {
+  background-color: #3e4749;
+  border-color: #556264;
+  color: #b2bec3;
+}
+.dark-theme .client-action-btn:hover,
+.dark-theme .odp-header-line .toggle-lock-btn:hover,
+.dark-theme .odp-header-line .edit-odp-btn:hover,
+.dark-theme .odp-header-line .delete-odp-btn:hover {
+  background-color: #4a5557;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.dark-theme .edit-client-btn:hover,
+.dark-theme .odp-header-line .edit-odp-btn:hover {
+  background-color: #1e3a8a;
+  border-color: #2563eb;
+  color: #60a5fa;
+}
+.dark-theme .delete-client-btn:hover,
+.dark-theme .odp-header-line .delete-odp-btn:hover {
+  background-color: #7f1d1d;
+  border-color: #dc2626;
+  color: #fca5a5;
+}
+.dark-theme .hide-client-btn:hover {
+  background-color: #14532d;
+  border-color: #16a34a;
+  color: #86efac;
+}
+
+/* Login Overlay */
+#login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.3s ease; }
+#login-overlay.hidden { opacity: 0; pointer-events: none; }
+.login-card { background: #2d3436; color: #dfe6e9; padding: 40px 30px; border-radius: 16px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); width: 90%; max-width: 400px; text-align: center; border: 1px solid #4a5568; }
+.login-card h2 { margin-top: 0; margin-bottom: 10px; font-size: 28px; font-weight: 600; color: #fff; }
+.login-card p { color: #a0aec0; margin-bottom: 30px; font-size: 14px; }
+.login-card input { width: 100%; padding: 14px 16px; margin-bottom: 20px; border: 1px solid #4a5568; background: #1e2629; color: #fff; border-radius: 40px; font-size: 16px; outline: none; box-sizing: border-box; transition: border 0.2s; }
+.login-card input:focus { border-color: #0984e3; }
+.login-card button { background: #0984e3; color: white; border: none; padding: 14px 20px; border-radius: 40px; font-size: 16px; font-weight: 600; width: 100%; cursor: pointer; transition: background 0.2s; box-shadow: 0 8px 16px rgba(9, 132, 227, 0.3); }
+.login-card button:hover { background: #0873c4; }
+.login-card .demo-hint { margin-top: 25px; font-size: 13px; color: #718096; }
+.login-card .error-message { color: #ff6b6b; margin-top: 10px; font-size: 14px; min-height: 20px; }
+
+.crosshair-cursor { cursor: crosshair !important; }
+
+/* Check button style */
+.check-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.2s;
+}
+.check-btn:hover {
+  background-color: #0056b3;
+}
+
