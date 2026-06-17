@@ -7,26 +7,24 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss()],
 
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
+  define: {
+    'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+  },
 
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
-      },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '.'),
     },
+  },
 
-    server: {
-      hmr: process.env.DISABLE_HMR !== 'true',
-    },
+  server: {
+    hmr: process.env.DISABLE_HMR !== 'true',
+  },
 
-    preview: {
-      allowedHosts: [
-        'sbclient1.onrender.com',
-      ],
-    },
-  };
+  preview: {
+    allowedHosts: true,
+  },
+ };
 });
