@@ -22,10 +22,10 @@ export default defineConfig(({ mode }) => {
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
-  
+
     preview: {
-      allowedHosts: true,
-       },
+      allowedHosts: [
+        'sbclient1.onrender.com',
       ],
     },
   };
