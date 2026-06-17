@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
     },
 
     preview: {
-      allowedHosts: [
+      allowedHosts: true,
         'sbclient1.onrender.com',
       ],
     },
